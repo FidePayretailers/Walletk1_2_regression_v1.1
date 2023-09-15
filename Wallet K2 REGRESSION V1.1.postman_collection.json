@@ -1,0 +1,1399 @@
+{
+	"info": {
+		"_postman_id": "3f5807ef-8d6e-41a2-84a4-57f6061fa254",
+		"name": "Wallet K2 REGRESSION V1.1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27766064"
+	},
+	"item": [
+		{
+			"name": "Core - Login",
+			"item": [
+				{
+					"name": "OK - CORE - Login - Validar credenciales de usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"6005670110\",\r\n  \"password\": \"StrongPass11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/auth/login",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Login - Validar credenciales de usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - errors\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.exist.and.to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorCode is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors[0].errorCode).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorCode should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorMessage is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.be.an('array');\r",
+									"    responseData.errors.forEach(function (error) {\r",
+									"        pm.expect(error.errorMessage).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorMessage should not be empty\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_login_failed_invalid_credentials\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_login_failed_invalid_credentials\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error code id 1025\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1025\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614651\",\r\n  \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/auth/login",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Login - Validar credenciales de usuario - status pending",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - errors\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.exist.and.to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorCode is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors[0].errorCode).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorCode should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorMessage is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.be.an('array');\r",
+									"    responseData.errors.forEach(function (error) {\r",
+									"        pm.expect(error.errorMessage).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorMessage should not be empty\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_login_failed_invalid_status\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_login_failed_invalid_status\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error code id 1031\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1031\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"2487620356\",\r\n  \"password\": \"StrongpassNew1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/auth/login",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Login - Validar credenciales de usuario - status closed_account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - errors\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.exist.and.to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorCode is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors[0].errorCode).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorCode should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorMessage is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.be.an('array');\r",
+									"    responseData.errors.forEach(function (error) {\r",
+									"        pm.expect(error.errorMessage).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorMessage should not be empty\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_login_failed_invalid_status\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_login_failed_invalid_status\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error code id 1031\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1031\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614652\",\r\n  \"password\": \"StrongpassNew1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/auth/login",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Login - Validar credenciales de usuario - status suspended_account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - errors\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.exist.and.to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorCode is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors[0].errorCode).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorCode should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorMessage is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.be.an('array');\r",
+									"    responseData.errors.forEach(function (error) {\r",
+									"        pm.expect(error.errorMessage).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorMessage should not be empty\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_login_failed_invalid_status\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_login_failed_invalid_status\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error code id 1031\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1031\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"666000006\",\r\n  \"password\": \"StrongpassNew1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/auth/login",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Login - Validar credenciales de usuario - status blocked",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - errors\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.exist.and.to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorCode is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors[0].errorCode).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorCode should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"errorMessage is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.errors).to.be.an('array');\r",
+									"    responseData.errors.forEach(function (error) {\r",
+									"        pm.expect(error.errorMessage).to.be.a('string').and.to.have.lengthOf.at.least(1, \"errorMessage should not be empty\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_login_failed_invalid_status\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_login_failed_invalid_status\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error code id 1031\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1031\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614651\",\r\n  \"password\": \"StrongpassNew1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/auth/login",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OK - CORE - Login - Validar credenciales de usuario - status identity_verifed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"666000003\",\r\n  \"password\": \"StrongpassNew1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/auth/login",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "1234",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "test",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Core - Restet password",
+			"item": [
+				{
+					"name": "OK - CORE - Reset password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Status code name is Ok\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response is an object with data property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('data');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Fields Response: Data object has countryCode, phoneNumber, and status properties\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"    pm.expect(data).to.have.property('countryCode');\r",
+									"    pm.expect(data).to.have.property('phoneNumber');\r",
+									"    pm.expect(data).to.have.property('status');\r",
+									"\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Data fields response: Data object properties have valid types and values\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"\r",
+									"    pm.expect(data).to.have.property('countryCode').that.is.a('string').and.to.not.be.empty;\r",
+									"    pm.expect(data).to.have.property('phoneNumber').that.is.a('string').and.to.not.be.empty;\r",
+									"    pm.expect(data).to.have.property('status').that.is.a('string').and.to.not.be.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614665\",\r\n  \"newPassword\": \"{{$randomPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/User/resetpassword",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Reset password - user not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Status code name has Not Found\", function () {\r",
+									"    pm.response.to.have.status(\"Not Found\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"Error message text: err_user_not_found\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_user_not_found\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1023\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1023\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"927361450\",\r\n  \"newPassword\": \"Stongpass11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/User/resetpassword",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE- Reset password - campos vacios Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Status code name is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_invalid_password_format\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_invalid_password_format\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1022\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1022\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"\",\r\n  \"newPassword\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/User/resetpassword",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Reset password - pass incorrect",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Status code name is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_invalid_password_format\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_invalid_password_format\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1022\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1022\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614668\",\r\n  \"newPassword\": \"1ss\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/User/resetpassword",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - CORE - Reset password - Pass usada previamente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Status code name is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_password_already_registered\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_password_already_registered\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1026\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1026\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614667\",\r\n  \"newPassword\": \"StrongPass1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_IAM_BASE_PATH}}/iam/User/resetpassword",
+							"host": [
+								"{{CORE_IAM_BASE_PATH}}"
+							],
+							"path": [
+								"iam",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "1234",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "test",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Gateway - Reset password",
+			"item": [
+				{
+					"name": "OK - Gateway - Reset password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Status code name is Ok\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with data property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('data');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Fields Response: Data object has countryCode, phoneNumber, and status properties\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"    pm.expect(data).to.have.property('countryCode');\r",
+									"    pm.expect(data).to.have.property('phoneNumber');\r",
+									"    pm.expect(data).to.have.property('status');\r",
+									"\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Data fields response: Data object properties have valid types and values\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"\r",
+									"    pm.expect(data).to.have.property('countryCode').that.is.a('string').and.to.not.be.empty;\r",
+									"    pm.expect(data).to.have.property('phoneNumber').that.is.a('string').and.to.not.be.empty;\r",
+									"    pm.expect(data).to.have.property('status').that.is.a('string').and.to.not.be.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614668\",\r\n  \"newPassword\": \"{{$randomPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATEWAY_BASE_PATH}}/auth/User/resetpassword",
+							"host": [
+								"{{GATEWAY_BASE_PATH}}"
+							],
+							"path": [
+								"auth",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - Gateway - Reset password - user not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Status code name has Not Found\", function () {\r",
+									"    pm.response.to.have.status(\"Not Found\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"Error message text: err_user_not_found\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_user_not_found\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1023\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1023\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"927361450\",\r\n  \"newPassword\": \"Stongpass11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATEWAY_BASE_PATH}}/auth/User/resetpassword",
+							"host": [
+								"{{GATEWAY_BASE_PATH}}"
+							],
+							"path": [
+								"auth",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - Gateway- Reset password - pass incorrect",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Status code name is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_invalid_password_format\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_invalid_password_format\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1022\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1022\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614668\",\r\n  \"newPassword\": \"AMANDA28\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATEWAY_BASE_PATH}}/auth/User/resetpassword",
+							"host": [
+								"{{GATEWAY_BASE_PATH}}"
+							],
+							"path": [
+								"auth",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - Gateway- Reset password - campos vacios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Status code name is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_invalid_password_format\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_invalid_password_format\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1022\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1022\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"\",\r\n  \"newPassword\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATEWAY_BASE_PATH}}/auth/User/resetpassword",
+							"host": [
+								"{{GATEWAY_BASE_PATH}}"
+							],
+							"path": [
+								"auth",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NOK - Gateway - Reset password - Pass usada previamente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Status code name is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object with errors property\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('errors');\r",
+									"});\r",
+									"\r",
+									"var ec = pm.variables.get(\"errorCode\");\r",
+									"var em = pm.variables.get(\"errorMessage\");\r",
+									"\r",
+									"pm.test(\"Error code check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorCode).to.eql(ec);\r",
+									"});\r",
+									"pm.test(\"Error message check - Not empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errorMessage).to.eql(em);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message text: err_password_already_registered\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"err_password_already_registered\");\r",
+									"});\r",
+									"pm.test(\"Error code id 1026\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1026\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"5273614667\",\r\n  \"newPassword\": \"StrongPass1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATEWAY_BASE_PATH}}/auth/User/resetpassword",
+							"host": [
+								"{{GATEWAY_BASE_PATH}}"
+							],
+							"path": [
+								"auth",
+								"User",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "1234",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "test",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "1234",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "test",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
